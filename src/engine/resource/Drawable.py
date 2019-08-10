@@ -15,3 +15,9 @@ class Image(Drawable):
 class Text(Drawable):
     def __init__(self, surface = None):
         super().__init__(surface)
+
+
+class Rect(Drawable):
+    def __init__(self, surface = None):
+        super().__init__(surface)
+        
