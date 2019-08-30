@@ -1,3 +1,4 @@
+from ..actors.Mom import *
 from ..actors.Wall import *
 from engine.Engine import *
 from engine.Scene import *
@@ -30,19 +31,21 @@ class Play(Scene):
         self.walls.append(Wall((250, 200, 259, 259)))
         self.walls.append(Wall((250, 340, 259, 399)))
         # top door
-        self.walls.append(Wall((250, 200, 309, 209)))
-        self.walls.append(Wall((490, 200, 549, 209)))
+        self.walls.append(Wall((250, 200, 349, 209)))
+        self.walls.append(Wall((450, 200, 549, 209)))
         # right door
         self.walls.append(Wall((540, 200, 549, 259)))
         self.walls.append(Wall((540, 340, 549, 399)))
         # bottom door
-        self.walls.append(Wall((250, 390, 309, 399)))
-        self.walls.append(Wall((490, 390, 549, 399)))
+        self.walls.append(Wall((250, 390, 349, 399)))
+        self.walls.append(Wall((450, 390, 549, 399)))
 
 
     def __init__(self):
         super().__init__()
         self.buildWalls()
+        initPos = [Environment.screenWidth / 2, Environment.screenHeight / 2]
+        self.mom = Mom(initPos)
 
 
     def draw(self):
@@ -50,3 +53,5 @@ class Play(Scene):
 
         for wall in self.walls:
             Engine.draw(wall.drawable, wall.getPosition())
+
+        Engine.draw(self.mom.drawable, self.mom.getLTCorner())

@@ -15,4 +15,8 @@ class Actor:
         return (
             self.dimension[2] - self.dimension[0] + 1,
             self.dimension[3] - self.dimension[1] + 1)
+
+
+    def getLTCorner(self):
+        return (self.dimension[0], self.dimension[1])
         
