@@ -1,5 +1,6 @@
 from ..actors.Mom import *
 from ..actors.Wall import *
+from .SceneType import *
 from engine.Engine import *
 from engine.Scene import *
 from Environment import *
@@ -46,6 +47,14 @@ class Play(Scene):
         self.buildWalls()
         initPos = [Environment.screenWidth / 2, Environment.screenHeight / 2]
         self.mom = Mom(initPos)
+        self.lastMomMoveTick = Engine.getTick()
+        self.momMoveHandleInterval = 100
+        self.directionKeys = (
+            pygame.K_LEFT,
+            pygame.K_UP,
+            pygame.K_RIGHT,
+            pygame.K_DOWN
+        )
 
 
     def draw(self):
@@ -55,3 +64,24 @@ class Play(Scene):
             Engine.draw(wall.drawable, wall.getPosition())
 
         Engine.draw(self.mom.drawable, self.mom.getLTCorner())
+
+
+    def handleEvent(self, event, currentTick):
+        nextSceneType = SceneType.Play
+        if (pygame.KEYDOWN == event.type and event.key in self.directionKeys):
+            if (pygame.K_LEFT == event.key):
+                self.mom.moveDirection = Direction4.Left
+            elif (pygame.K_UP == event.key):
+                self.mom.moveDirection = Direction4.Up
+            elif (pygame.K_RIGHT == event.key):
+                self.mom.moveDirection = Direction4.Right
+            else:
+                self.mom.moveDirection = Direction4.Down
+        elif (pygame.KEYUP == event.type and event.key in self.directionKeys):
+            self.mom.moveDirection = None
+
+        if (None != self.mom.moveDirection and currentTick - self.lastMomMoveTick > self.momMoveHandleInterval):
+            self.lastMomMoveTick = currentTick
+            self.mom.move()
+
+        return nextSceneType
